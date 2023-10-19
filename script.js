@@ -16,6 +16,62 @@
         "precipitation": "mm",
         "rain": "mm"
     },
+
+    let geocode = { 
+        reverseGeocode: function (lat, lon) {
+  var api_key = 'df9cccc8c4c7410b99a75953c3469589';
+
+  // reverse geocoding example (coordinates to address)
+  var latitude = '52.3877830';
+  var longitude = '9.7334394';
+  var query = latitude + ',' + longitude;
+
+  // forward geocoding example (address to coordinate)
+  // var query = 'Philipsbornstr. 2, 30165 Hannover, Germany';
+  // note: query needs to be URI encoded (see below)
+
+  var api_url = 'https://api.opencagedata.com/geocode/v1/json'
+
+  var request_url = api_url
+    + '?'
+    + 'key=' + api_key
+    + '&q=' + encodeURIComponent(query)
+    + '&pretty=1'
+    + '&no_annotations=1';
+
+  // see full list of required and optional parameters:
+  // https://opencagedata.com/api#forward
+
+  var request = new XMLHttpRequest();
+  request.open('GET', request_url, true);
+
+  request.onload = function() {
+    // see full list of possible response codes:
+    // https://opencagedata.com/api#codes
+
+    if (request.status === 200){
+      // Success!
+      var data = JSON.parse(request.responseText);
+      alert(data.results[0].formatted); // print the location
+
+    } else if (request.status <= 500){
+      // We reached our target server, but it returned an error
+
+      console.log("unable to geocode! Response code: " + request.status);
+      var data = JSON.parse(request.responseText);
+      console.log('error msg: ' + data.status.message);
+    } else {
+      console.log("server error");
+    }
+  };
+
+  request.onerror = function() {
+    // There was a connection error of some sort
+    console.log("unable to connect to server");
+  };
+
+  request.send();  // make the request
+}
     "current": {
         "time": 1697716800,
         "interval": 900,
@@ -145,7 +201,7 @@
             1690097400,
             1690101000,
             1690104600,
-            1690108200,
+            1690108200,                                                                                                                                                                                                                                                                    
             1690111800,
             1690115400,
             1690119000,
@@ -162,7 +218,7 @@
             1690158600,
             1690162200,
             1690165800,
-            1690169400,
+            1690169400,    
             1690173000,
             1690176600,
             1690180200,
